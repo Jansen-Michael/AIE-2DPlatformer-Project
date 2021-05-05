@@ -9,7 +9,7 @@ public class DashMove : MonoBehaviour
     private float dashTime;                 // The countdown timer of the dash
     public float startDashTime;             // The time of how long the dash will last for
     public ParticleSystem dashParticle;     // Reference to the dash particle
-    private bool canDash;                   // Bool to check if we can dash or not
+    public bool canDash;                   // Bool to check if we can dash or not
 
     public enum DashDirection { None, Up, Right, Down, Left};           // Enumerator type used to determine the dash direction
     private DashDirection dashDirection;                                // This is where we store the actual dash's direfction
@@ -24,15 +24,20 @@ public class DashMove : MonoBehaviour
 
     void Update()
     {
+        //Dash();
+    }
+
+    public void Dash()
+    {
         if (GetComponent<PlayerMovement>().isGrounded) { canDash = true; }      // Allow dash if grounded
 
-        if (dashDirection == DashDirection.None)    // If we are currently not dashing than check where to dash
+        if (dashDirection == DashDirection.None && canDash)    // If we are currently not dashing than check where to dash
         {
             if (Input.GetAxisRaw("Horizontal") == 1 && Input.GetKeyDown(KeyCode.LeftShift))         // Check if player dash to the right
             {
                 dashDirection = DashDirection.Right;    // Set dash direction
                 Instantiate(dashParticle, transform.position, Quaternion.identity); // Spawn the dash effect
-            } 
+            }
             else if (Input.GetAxisRaw("Horizontal") == -1 && Input.GetKeyDown(KeyCode.LeftShift))   // Check if player dash to the right
             {
                 dashDirection = DashDirection.Left;     // Set dash direction
@@ -48,15 +53,14 @@ public class DashMove : MonoBehaviour
                 dashDirection = DashDirection.Down;     // Set dash direction
                 Instantiate(dashParticle, transform.position, Quaternion.identity); // Spawn the dash effect
             }
-        } 
+        }
         else if (canDash == true)
         {
             if (dashTime <= 0) // If dash time is done execute
             {
+                GetComponent<PlayerMovement>().KillSpeed();
                 dashDirection = DashDirection.None; // Set dash to none
                 dashTime = startDashTime;           // Reset the dash time
-                rb.velocity = Vector2.zero;         // Stop all velocity
-                rb.gravityScale = 9;                // Restore Gravity
                 canDash = false;                    // Disable dash
             }
             else

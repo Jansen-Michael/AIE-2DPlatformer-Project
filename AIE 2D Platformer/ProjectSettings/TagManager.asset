@@ -3,7 +3,12 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Power-Up
+  - Coin
+  - GM
+  - Camera Holder
+  - Death
   layers:
   - Default
   - TransparentFX
