@@ -27,8 +27,9 @@ public class WinScreen : MonoBehaviour
 
     }
 
-    public void SetPointsScore(float score)
+    public void SetPointsScore(float score, float startTime, float timeLeft)
     {
+        float finalScore = score + startTime - timeLeft;
         FinalScoreText.text = "Total Score: " + score;
     }
 

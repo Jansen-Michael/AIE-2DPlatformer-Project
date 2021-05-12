@@ -11,12 +11,6 @@ public class Goal : MonoBehaviour
         gm = FindObjectOfType<GameManager>();   // Set the reference to the game object
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.GetComponent<PlayerController>() == true) // When Collide with player

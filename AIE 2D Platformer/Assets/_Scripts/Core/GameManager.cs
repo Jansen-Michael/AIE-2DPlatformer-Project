@@ -86,7 +86,7 @@ public class GameManager : MonoBehaviour
     public void LevelComplete()
     {
         winScreen.gameObject.SetActive(true);
-        winScreen.SetPointsScore(currentScore);
+        winScreen.SetPointsScore(currentScore, startTime, seconds);
         winScreen.SetTimeScore(startTime, seconds);
         player.canMove = false;
         isPlaying = false;
