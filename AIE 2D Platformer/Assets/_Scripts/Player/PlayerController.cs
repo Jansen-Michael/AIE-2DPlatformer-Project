@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -20,15 +21,22 @@ public class PlayerController : MonoBehaviour
     public LayerMask whatIsWall;
 
     public bool canMove = true;
-
     public bool dashEnabled = true;
     public bool doubleJumpEnabled = true;
     private float moveInput;
     private bool jumpInput;
 
+    // Boomerang
+    private Boomerang boomerang;
+    public GameObject chargeBar;
+    public float timeToMaxCharge = 1.2f;
+    private float chargeTime;
+    private float chargePercentage;
+
     void Start()
     {
         gm = GameObject.FindGameObjectWithTag("GM").GetComponent<GameManager>();
+        boomerang = GameObject.FindGameObjectWithTag("Boomerang").GetComponent<Boomerang>();
         playerMovement = GetComponent<PlayerMovement>();
         dashMove = GetComponent<DashMove>();
         rb = GetComponent<Rigidbody2D>();
@@ -47,11 +55,33 @@ public class PlayerController : MonoBehaviour
         playerMovement.Jump();
         playerMovement.WallJump();
         if (doubleJumpEnabled) { playerMovement.DoubleJump(jumpInput); }
+        ActivateBoomerang();
     }
 
-    private void FixedUpdate()
+    private void ActivateBoomerang()
     {
+        Vector2 mouseLocation = new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
 
+        if (boomerang.isWithPlayer())
+        {
+            if (Input.GetMouseButton(0))
+            {
+                chargeTime += Time.deltaTime;
+                chargePercentage = chargeTime / timeToMaxCharge;
+                chargePercentage = Mathf.Clamp01(chargePercentage);
+                chargeBar.transform.localScale = new Vector3(chargePercentage, chargeBar.transform.localScale.y);
+            }
+            else if (Input.GetMouseButtonUp(0))
+            {
+                Vector2 throwDirection = new Vector2(mouseLocation.x - transform.position.x, mouseLocation.y - transform.position.y).normalized;
+                boomerang.ThrowBoomerang(throwDirection, chargePercentage);
+                chargeTime = 0;
+            }
+        }
+        if (Input.GetMouseButtonDown(1))
+        {
+            if (!boomerang.isWithPlayer()) { boomerang.FreezeBoomerang(); }
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

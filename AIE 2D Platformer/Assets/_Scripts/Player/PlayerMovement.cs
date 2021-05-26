@@ -57,36 +57,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        /*if (player.CheckRightWall() && player.CheckGrounded() == false && moveInput != 0)
-        {
-            isWallSliding = true;
-        }
-        else if (player.CheckLeftWall() && player.CheckGrounded() == false && moveInput != 0)
-        {
-            isWallSliding = true;
-        }
-        else
-        {
-            isWallSliding = false;
-        }
 
-        if (isWallSliding)
-        {
-            rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue));
-        }
-
-        if (Input.GetButtonDown("Jump") && isWallSliding == true && moveInput == -1)
-        {
-            wallJumpDirection = WallJumpDirection.FromLeft;
-            isWallJumping = true;
-            Invoke("SetWallJumpingToFalse", wallJumpTime);
-        }
-        else if (Input.GetButtonDown("Jump") && isWallSliding == true && moveInput == 1)
-        {
-            wallJumpDirection = WallJumpDirection.FromRight;
-            isWallJumping = true;
-            Invoke("SetWallJumpingToFalse", wallJumpTime);
-        }*/
     }
 
     private void FixedUpdate()
@@ -156,63 +127,25 @@ public class PlayerMovement : MonoBehaviour
             isWallSliding = false;
         }
 
-        /*if (Input.GetButtonDown("Jump") && isWallSliding == true && moveInput == -1)
-        {
-            wallJumpDirection = WallJumpDirection.FromLeft;
-            isWallJumping = true;
-            Invoke("SetWallJumpingToFalse", wallJumpTime);
-        }
-        else if (Input.GetButtonDown("Jump") && isWallSliding == true && moveInput == 1)
-        {
-            wallJumpDirection = WallJumpDirection.FromRight;
-            isWallJumping = true;
-            Invoke("SetWallJumpingToFalse", wallJumpTime);
-        }*/
-
         if (wallJumpTimer <= 0) { isWallJumping = false; wallJumpTimer = wallJumpTime; }
-        else 
+        else
         {
-            switch (wallJumpDirection)
+            if (Input.GetButtonDown("Jump") && isWallSliding == true && moveInput == -1) // if pushing against wall and jump is pressed
             {
-                case WallJumpDirection.None:    // Allow both left and right wall jump
-                    if (Input.GetButtonDown("Jump") && isWallSliding == true && moveInput == -1) // if pushing against wall and jump is pressed
-                    {
-                        print("From left");
-                        wallJumpDirection = WallJumpDirection.FromLeft;     // Set isWallJumping to from left
-                        isWallJumping = true;
-                        Flip();
-                    }
-                    else if (Input.GetButtonDown("Jump") && isWallSliding == true && moveInput == 1) // if pushing against wall and jump is pressed
-                    {
-                        print("From right");
-                        rb.velocity = new Vector2(-xWallJumpForce * 2, xWallJumpForce);
-                        wallJumpDirection = WallJumpDirection.FromRight;    // Set isWallJumping to from right
-                        isWallJumping = true;
-                        Flip();
-                    }
-                    break;
-
-                case WallJumpDirection.FromLeft:    // Allow only right wall jump
-                    if (Input.GetButtonDown("Jump") && isWallSliding == true && moveInput == 1) // if pushing against wall and jump is pressed
-                    {
-                        print("From right22");
-                        wallJumpDirection = WallJumpDirection.FromRight;    // Set isWallJumping to from right
-                        isWallJumping = true;
-                        Flip();
-                    }
-                    break;
-
-                case WallJumpDirection.FromRight:   // Allow only left wall jump
-                    if (Input.GetButtonDown("Jump") && isWallSliding == true && moveInput == -1) // if pushing against wall and jump is pressed
-                    {
-                        print("From left22");
-                        wallJumpDirection = WallJumpDirection.FromLeft;     // Set isWallJumping to from left
-                        isWallJumping = true;
-                        Flip();
-                    }
-                    break;
+                print("From left");
+                wallJumpDirection = WallJumpDirection.FromLeft;     // Set isWallJumping to from left
+                isWallJumping = true;
+                Flip();
             }
-        }
+            else if (Input.GetButtonDown("Jump") && isWallSliding == true && moveInput == 1) // if pushing against wall and jump is pressed
+            {
+                print("From right");
+                rb.velocity = new Vector2(-xWallJumpForce * 2, xWallJumpForce);
+                wallJumpDirection = WallJumpDirection.FromRight;    // Set isWallJumping to from right
+                isWallJumping = true;
+                Flip();
+            }
+        } 
     }
 
     public void DoubleJump(bool jumpInput)
@@ -283,7 +216,7 @@ public class PlayerMovement : MonoBehaviour
         rb.gravityScale = 9;                // Restore Gravity
     }
 
-    void Flip()
+    void Flip() // Flips the player's sprite in the opposite direction
     {
         facingRight = !facingRight;
         Vector3 scaler = spriteBody.transform.localScale;

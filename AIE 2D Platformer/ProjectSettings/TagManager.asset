@@ -9,6 +9,8 @@ TagManager:
   - GM
   - Camera Holder
   - Death
+  - Enemy
+  - Boomerang
   layers:
   - Default
   - TransparentFX

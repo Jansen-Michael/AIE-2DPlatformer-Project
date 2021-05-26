@@ -22,18 +22,6 @@ public class GameManager : MonoBehaviour
 
     private bool isPlaying = true;
 
-    private void Awake()
-    {
-        /*if (instance == null)
-        {
-            instance = this;
-            DontDestroyOnLoad(instance);
-        } else
-        {
-            Destroy(gameObject);
-        }*/
-    }
-
     void Start()
     {
         player = FindObjectOfType<PlayerController>();
