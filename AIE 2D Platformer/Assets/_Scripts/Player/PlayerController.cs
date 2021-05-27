@@ -11,10 +11,12 @@ public class PlayerController : MonoBehaviour
 
     private Rigidbody2D rb;
 
+    // Check is grounded variables
     public Transform groundCheck;
     public Vector2 groundCheckRadius;
     public LayerMask whatIsGround;
 
+    // Check is the wall variables
     public Transform leftWallCheck;
     public Transform rightWallCheck;
     public Vector2 wallCheckRadius;
@@ -23,11 +25,10 @@ public class PlayerController : MonoBehaviour
     public bool canMove = true;
     public bool dashEnabled = true;
     public bool doubleJumpEnabled = true;
-    private float moveInput;
-    private bool jumpInput;
 
     // Boomerang
     private Boomerang boomerang;
+    public GameObject boomerangChargeObject;
     public GameObject chargeBar;
     public float timeToMaxCharge = 1.2f;
     private float chargeTime;
@@ -35,13 +36,16 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        // Find and get required components
         gm = GameObject.FindGameObjectWithTag("GM").GetComponent<GameManager>();
-        boomerang = GameObject.FindGameObjectWithTag("Boomerang").GetComponent<Boomerang>();
+        boomerang = FindObjectOfType<Boomerang>().GetComponent<Boomerang>();
         playerMovement = GetComponent<PlayerMovement>();
         dashMove = GetComponent<DashMove>();
         rb = GetComponent<Rigidbody2D>();
 
+        // Set up variables
         gm.lastCheckPointPos = transform.position;
+        boomerangChargeObject.SetActive(false);
         canMove = true;
     }
 
@@ -49,31 +53,33 @@ public class PlayerController : MonoBehaviour
     {
         if (canMove == false) { return; }
 
-        jumpInput = Input.GetButtonDown("Jump");
         playerMovement.Movement();
-        if (dashEnabled) { dashMove.Dash(); }
+        dashMove.Dash();
         playerMovement.Jump();
         playerMovement.WallJump();
-        if (doubleJumpEnabled) { playerMovement.DoubleJump(jumpInput); }
+        playerMovement.DoubleJump();
         ActivateBoomerang();
     }
 
     private void ActivateBoomerang()
     {
-        Vector2 mouseLocation = new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
+        Vector2 mouseLocation = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 throwDirection = new Vector2(mouseLocation.x - transform.position.x, mouseLocation.y - transform.position.y).normalized;
 
         if (boomerang.isWithPlayer())
         {
             if (Input.GetMouseButton(0))
             {
                 chargeTime += Time.deltaTime;
+                boomerangChargeObject.SetActive(true);
+                boomerangChargeObject.transform.right = throwDirection;
                 chargePercentage = chargeTime / timeToMaxCharge;
                 chargePercentage = Mathf.Clamp01(chargePercentage);
                 chargeBar.transform.localScale = new Vector3(chargePercentage, chargeBar.transform.localScale.y);
             }
             else if (Input.GetMouseButtonUp(0))
             {
-                Vector2 throwDirection = new Vector2(mouseLocation.x - transform.position.x, mouseLocation.y - transform.position.y).normalized;
+                boomerangChargeObject.SetActive(false);
                 boomerang.ThrowBoomerang(throwDirection, chargePercentage);
                 chargeTime = 0;
             }

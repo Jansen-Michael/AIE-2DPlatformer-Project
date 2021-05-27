@@ -48,6 +48,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
+        // Grab Components and reset variables
         player = GetComponent<PlayerController>();
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
@@ -55,19 +56,15 @@ public class PlayerMovement : MonoBehaviour
         wallJumpDirection = WallJumpDirection.None;
     }
 
-    private void Update()
-    {
-
-    }
-
     private void FixedUpdate()
     {
+        if (player.canMove == false) { return; } // Disable allow forms of movement
         // Movement
         speed = Mathf.Clamp(speed, minSpeed, speedBoost);
         rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
 
         //Wall Jump
-        if (isWallSliding)
+        if (isWallSliding)  // Check if we should wall slide
         {
             rb.velocity = new Vector2(rb.velocity.x, Mathf.Clamp(rb.velocity.y, -wallSlidingSpeed, float.MaxValue));
         }
@@ -148,14 +145,14 @@ public class PlayerMovement : MonoBehaviour
         } 
     }
 
-    public void DoubleJump(bool jumpInput)
+    public void DoubleJump()
     {
         if (player.CheckGrounded() == true)
         {
             canDoubleJump = true;       // Enable double jump
         }
 
-        if (jumpInput && player.CheckGrounded() == false && isfirstJump == false && canDoubleJump == true &&wallJumpDirection == WallJumpDirection.None)
+        if (Input.GetButtonDown("Jump") && player.CheckGrounded() == false && isfirstJump == false && canDoubleJump == true && isWallJumping == false)
         {
             rb.velocity = Vector2.up * doubleJumpForce;     // Perform double jump
             canDoubleJump = false;                          // Disable double jump

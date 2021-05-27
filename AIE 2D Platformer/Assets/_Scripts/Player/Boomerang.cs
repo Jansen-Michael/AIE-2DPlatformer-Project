@@ -36,7 +36,7 @@ public class Boomerang : MonoBehaviour
         Frozen,
         Recalling
     }
-    private State currentState; // Boomerang's current state
+    public State currentState; // Boomerang's current state
 
     private void Awake() // Priorty Reference
     {
@@ -53,6 +53,7 @@ public class Boomerang : MonoBehaviour
         trailRenderer = GetComponent<TrailRenderer>();
         spriteRender = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
+        trailRenderer.enabled = false;
     }
 
     private void FixedUpdate()
@@ -89,9 +90,10 @@ public class Boomerang : MonoBehaviour
         switch(currentState)
         {
             case State.WithPlayer:  // What to do during With player state
-                transform.position = player.transform.position;
                 circleCollider.enabled = false;
                 spriteRender.enabled = false;
+                trailRenderer.enabled = false;
+                transform.position = player.transform.position;
                 break;
             default:
                 circleCollider.enabled = true;

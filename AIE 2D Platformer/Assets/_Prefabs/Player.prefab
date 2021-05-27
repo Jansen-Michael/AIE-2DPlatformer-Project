@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1580354960435997482}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0091, y: 0.53, z: 2.4555862}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_Children:
   - {fileID: 5264575297612594146}
@@ -58,8 +58,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3134415294711597412}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.91, y: 0, z: 0}
-  m_LocalScale: {x: 0.72, y: 0.12, z: 0.1}
+  m_LocalPosition: {x: 2.9229994, y: 0.0428571, z: 3.5079796}
+  m_LocalScale: {x: 0.7199999, y: 0.11999998, z: 0.09999999}
   m_Children: []
   m_Father: {fileID: 718724694753351186}
   m_RootOrder: 0
@@ -139,8 +139,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3856060139069118862}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.91, y: 0, z: 0}
-  m_LocalScale: {x: 0.7, y: 0.1, z: 0.1}
+  m_LocalPosition: {x: 2.909, y: 0.002, z: 0}
+  m_LocalScale: {x: 0.70256823, y: 0.10247262, z: 0.1}
   m_Children: []
   m_Father: {fileID: 7994673081285088616}
   m_RootOrder: 0
@@ -220,8 +220,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4828264211854287505}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.91, y: 0, z: 0}
-  m_LocalScale: {x: 0.7, y: 0.1, z: 0.1}
+  m_LocalPosition: {x: 2.9229994, y: 0.0428571, z: 3.5079796}
+  m_LocalScale: {x: 0.69999987, y: 0.09999999, z: 0.09999999}
   m_Children: []
   m_Father: {fileID: 718724694753351186}
   m_RootOrder: 1
@@ -299,8 +299,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5157873239190885598}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.013000027, y: 0.0428571, z: 3.5079796}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6705324696735616213}
@@ -615,13 +615,14 @@ MonoBehaviour:
     m_Bits: 256
   leftWallCheck: {fileID: 3634325535321474022}
   rightWallCheck: {fileID: 5202397643894897573}
-  wallCheckRadius: {x: 0.2, y: 2.45}
+  wallCheckRadius: {x: 0.18, y: 2.3}
   whatIsWall:
     serializedVersion: 2
     m_Bits: 512
   canMove: 1
   dashEnabled: 1
   doubleJumpEnabled: 1
+  boomerangChargeObject: {fileID: 1580354960435997482}
   chargeBar: {fileID: 5157873239190885598}
   timeToMaxCharge: 1.2
 --- !u!114 &6934272956733194587

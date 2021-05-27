@@ -163,8 +163,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   boomerangPhysics: {fileID: 6200000, guid: eb52f72d171dd644eb12ddf3f24d9863, type: 2}
-  minThrowForce: 25
-  maxThrowForce: 45
+  minThrowForce: 20
+  maxThrowForce: 40
   recallStartSpeed: 30
   recallMaxSpeed: 100
   recallAccelation: 0.7

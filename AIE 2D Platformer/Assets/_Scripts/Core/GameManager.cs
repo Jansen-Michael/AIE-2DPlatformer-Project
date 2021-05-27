@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public Vector2 lastCheckPointPos;
 
     private PlayerController player;
+    private Boomerang boomerang;
     private GameObject cameraHolder;
     private WinScreen winScreen;
 
@@ -24,7 +25,9 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        // Find and get the components
         player = FindObjectOfType<PlayerController>();
+        boomerang = FindObjectOfType<Boomerang>();
         cameraHolder = GameObject.FindGameObjectWithTag("Camera Holder");
         winScreen = FindObjectOfType<WinScreen>();
         winScreen.gameObject.SetActive(false);
@@ -54,9 +57,11 @@ public class GameManager : MonoBehaviour
 
     public void RespawnPlayer()
     {
+        boomerang.currentState = Boomerang.State.WithPlayer;
         player.enabled = false;
         player.transform.position = lastCheckPointPos;
         cameraHolder.transform.position = player.transform.position;
+        player.GetComponent<PlayerMovement>().activateSpeedBoost = false;
         player.enabled = true;
     }
 

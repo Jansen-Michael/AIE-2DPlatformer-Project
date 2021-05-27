@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class WinScreen : MonoBehaviour
 {
+    // Reference to the winscreen text objects
     public Text FinalScoreText;
     public Text BestScoreText;
     public Text FinalTimeText;
@@ -13,29 +14,30 @@ public class WinScreen : MonoBehaviour
 
     public void PlayAgain()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Reload current Scene
         Time.timeScale = 1f;
     }
 
-    public void LevelSelect()
+    public void LevelSelect(string sceneName)
     {
-
+        SceneManager.LoadScene(sceneName);   // Load Scene
     }
 
     public void NextLevel()
     {
-
+        int currentScene = SceneManager.GetActiveScene().buildIndex;    // Get current scene build index
+        SceneManager.LoadScene(currentScene + 1);                       // Load the next scene on the build list
     }
 
     public void SetPointsScore(float score, float startTime, float timeLeft)
     {
-        float finalScore = score + startTime - timeLeft;
-        FinalScoreText.text = "Total Score: " + score;
+        float finalScore = score + startTime - timeLeft;    // Calculate final score
+        FinalScoreText.text = "Total Score: " + score;      // Set text to display total score
     }
 
     public void SetTimeScore(float startTime, float timeLeft)
     {
-        float finalTime = startTime - timeLeft;
-        FinalTimeText.text = "Total Time: " + finalTime;
+        float finalTime = startTime - timeLeft;             // Calculate how much time it took to complete level
+        FinalTimeText.text = "Total Time: " + finalTime;    // Set text to display total time
     }
 }
