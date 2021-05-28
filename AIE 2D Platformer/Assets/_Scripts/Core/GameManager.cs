@@ -41,7 +41,7 @@ public class GameManager : MonoBehaviour
         TimeCountDown(isPlaying);
     }
 
-    private void TimeCountDown(bool countdown)
+    private void TimeCountDown(bool countdown) // Countdown Time and update timer
     {
         if (countdown == false) { return; }
 
@@ -51,7 +51,7 @@ public class GameManager : MonoBehaviour
             return; 
         }
         currentTime -= Time.deltaTime;
-        seconds = Mathf.RoundToInt(currentTime);
+        int seconds = Mathf.RoundToInt(currentTime);
         timeText.text = "Time: " + seconds;
     }
 
@@ -65,16 +65,16 @@ public class GameManager : MonoBehaviour
         player.enabled = true;
     }
 
-    public void AddScore(int newScore)
+    public void AddScore(int newScore)  // Add score and update score board
     {
         currentScore += newScore;
         scoreText.text = "Score: " + currentScore;
     }
 
-    public void AddTime(float extraTime)
+    /*public void AddTime(float extraTime)
     {
         currentTime += extraTime;
-    }
+    }*/
 
     public void LevelComplete()
     {
@@ -85,4 +85,6 @@ public class GameManager : MonoBehaviour
         isPlaying = false;
         player.GetComponent<PlayerMovement>().KillSpeed();
     }
+
+
 } 

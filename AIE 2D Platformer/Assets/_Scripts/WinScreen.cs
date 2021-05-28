@@ -37,7 +37,7 @@ public class WinScreen : MonoBehaviour
 
     public void SetTimeScore(float startTime, float timeLeft)
     {
-        float finalTime = startTime - timeLeft;             // Calculate how much time it took to complete level
-        FinalTimeText.text = "Total Time: " + finalTime;    // Set text to display total time
+        float finalTime = startTime - timeLeft;                 // Calculate how much time it took to complete level
+        FinalTimeText.text = "Total Time: " + finalTime + "s";  // Set text to display total time
     }
 }
