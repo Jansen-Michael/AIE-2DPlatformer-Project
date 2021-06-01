@@ -8,14 +8,16 @@ public class GameManager : MonoBehaviour
     public int currentScore;
     public Text scoreText;
 
-    public float startTime = 300f;
+    public int startTime = 300;
     private float currentTime;
-    private int seconds;
+    public int seconds;
     public Text timeText;
 
     private static GameManager instance;
     public Vector2 lastCheckPointPos;
 
+    private HighScore highScore;
+    private BestTime bestTime;
     private PlayerController player;
     private Boomerang boomerang;
     private GameObject cameraHolder;
@@ -26,6 +28,8 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         // Find and get the components
+        highScore = GetComponent<HighScore>();
+        bestTime = GetComponent<BestTime>();
         player = FindObjectOfType<PlayerController>();
         boomerang = FindObjectOfType<Boomerang>();
         cameraHolder = GameObject.FindGameObjectWithTag("Camera Holder");
@@ -51,7 +55,7 @@ public class GameManager : MonoBehaviour
             return; 
         }
         currentTime -= Time.deltaTime;
-        int seconds = Mathf.RoundToInt(currentTime);
+        seconds = Mathf.RoundToInt(currentTime);
         timeText.text = "Time: " + seconds;
     }
 
@@ -79,12 +83,20 @@ public class GameManager : MonoBehaviour
     public void LevelComplete()
     {
         winScreen.gameObject.SetActive(true);
-        winScreen.SetPointsScore(currentScore, startTime, seconds);
-        winScreen.SetTimeScore(startTime, seconds);
+        int finalScore = currentScore + seconds;
+        int finalTime = startTime - seconds;
+        highScore.AddScore(finalScore);
+        highScore.SaveScoresToFile();
+        bestTime.AddTime(finalTime);
+        bestTime.SaveTimesToFile();
+
+        winScreen.SetPointsScore(finalScore);
+        winScreen.SetTimeScore(finalTime);
+        winScreen.SetHighScore(highScore.m_Scores[0]);
+        winScreen.SetBestTime(bestTime.m_Times[0]);
+
         player.canMove = false;
         isPlaying = false;
         player.GetComponent<PlayerMovement>().KillSpeed();
     }
-
-
 } 

@@ -95,7 +95,7 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("Death"))
         {
             gm.RespawnPlayer();
-            print("Respawn");
+            //print("Respawn");
         }
     }
 

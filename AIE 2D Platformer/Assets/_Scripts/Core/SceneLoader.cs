@@ -5,19 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     public void LoadScene(string sceneName)
     {
-        SceneManager.LoadScene(sceneName);
+        SceneManager.LoadScene(sceneName);  // Load Scene based on string name
     }
 
     public void QuitGame()
     {
-        Application.Quit();
+        Application.Quit(); // Quit Game
     }
 }

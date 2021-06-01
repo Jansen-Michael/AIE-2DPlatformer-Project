@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 6813570151429971441}
   - component: {fileID: 6813570151429971442}
+  - component: {fileID: 4734772152217518994}
+  - component: {fileID: 8265344048817638984}
   m_Layer: 0
   m_Name: Game Master
   m_TagString: GM
@@ -46,5 +48,34 @@ MonoBehaviour:
   currentScore: 0
   scoreText: {fileID: 0}
   startTime: 300
+  seconds: 0
   timeText: {fileID: 0}
   lastCheckPointPos: {x: 0, y: 0}
+--- !u!114 &4734772152217518994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6813570151429971455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfeb5fa5273afda40818422cb4f79a4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Scores: 00000000
+  Level1ScoreFileName: level1highscore.txt
+--- !u!114 &8265344048817638984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6813570151429971455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56dd1d537f4f04646a90aa45e2ba7cb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Times: 00000000
+  Level1ScoreFileName: level1besttime.txt

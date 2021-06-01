@@ -29,15 +29,23 @@ public class WinScreen : MonoBehaviour
         SceneManager.LoadScene(currentScene + 1);                       // Load the next scene on the build list
     }
 
-    public void SetPointsScore(float score, float startTime, float timeLeft)
+    public void SetPointsScore(int finalScore)
     {
-        float finalScore = score + startTime - timeLeft;    // Calculate final score
-        FinalScoreText.text = "Total Score: " + score;      // Set text to display total score
+        FinalScoreText.text = "Total Score: " + finalScore;      // Set text to display total score
     }
 
-    public void SetTimeScore(float startTime, float timeLeft)
+    public void SetTimeScore(float finalTime)
     {
-        float finalTime = startTime - timeLeft;                 // Calculate how much time it took to complete level
         FinalTimeText.text = "Total Time: " + finalTime + "s";  // Set text to display total time
+    }
+
+    public void SetHighScore(int highScore)
+    {
+        BestScoreText.text = "Best Score:" + highScore;         // Set text to display the high score
+    }
+
+    public void SetBestTime(float bestTime)
+    {
+        BestTimeText.text = "Best Time: " + bestTime + "s";     // Set text to display the best time
     }
 }

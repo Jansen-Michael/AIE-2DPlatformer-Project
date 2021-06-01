@@ -59,10 +59,6 @@ public class PlayerMovement : MonoBehaviour
     private void FixedUpdate()
     {
         if (player.canMove == false) { return; } // Disable allow forms of movement
-        // Movement
-        speed = Mathf.Clamp(speed, minSpeed, speedBoost);
-        rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
-
         //Wall Jump
         if (isWallSliding)  // Check if we should wall slide
         {
@@ -80,7 +76,14 @@ public class PlayerMovement : MonoBehaviour
             {
                 rb.velocity = new Vector2(-xWallJumpForce, yWallJumpForce);
             }
+
+
         }
+        
+        if (isWallJumping == true) { return; }
+        // Movement
+        speed = Mathf.Clamp(speed, minSpeed, speedBoost);
+        rb.velocity = new Vector2(moveInput * speed, rb.velocity.y);
     }
 
     public void Jump()
@@ -129,14 +132,14 @@ public class PlayerMovement : MonoBehaviour
         {
             if (Input.GetButtonDown("Jump") && isWallSliding == true && moveInput == -1) // if pushing against wall and jump is pressed
             {
-                print("From left");
+                //print("From left");
                 wallJumpDirection = WallJumpDirection.FromLeft;     // Set isWallJumping to from left
                 isWallJumping = true;
                 Flip();
             }
             else if (Input.GetButtonDown("Jump") && isWallSliding == true && moveInput == 1) // if pushing against wall and jump is pressed
             {
-                print("From right");
+                //print("From right");
                 rb.velocity = new Vector2(-xWallJumpForce * 2, xWallJumpForce);
                 wallJumpDirection = WallJumpDirection.FromRight;    // Set isWallJumping to from right
                 isWallJumping = true;
@@ -190,6 +193,7 @@ public class PlayerMovement : MonoBehaviour
 
     void SpeedBoost(float acceleration, float deceleration)
     {
+        // Note: Change to while loop
         if (speedBoostTimeCounter > 0)
         {
             if (moveInput != 0) { speed = Mathf.MoveTowards(speed, speedBoost, acceleration * 2); }
