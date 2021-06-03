@@ -12,13 +12,14 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
 
     // Check is grounded variables
-    public Transform groundCheck;
+    public Transform groundCheckBox;
     public Vector2 groundCheckRadius;
     public LayerMask whatIsGround;
+    public LayerMask whatIsPlatform;
 
     // Check is the wall variables
-    public Transform leftWallCheck;
-    public Transform rightWallCheck;
+    public Transform leftWallCheckBox;
+    public Transform rightWallCheckBox;
     public Vector2 wallCheckRadius;
     public LayerMask whatIsWall;
 
@@ -28,7 +29,7 @@ public class PlayerController : MonoBehaviour
 
     // Boomerang
     private Boomerang boomerang;
-    public GameObject boomerangChargeObject;
+    public GameObject boomerangChargeMeter;
     public GameObject chargeBar;
     public float timeToMaxCharge = 1.2f;
     private float chargeTime;
@@ -44,9 +45,9 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
 
         // Set up variables
-        gm.lastCheckPointPos = transform.position;
-        boomerangChargeObject.SetActive(false);
-        canMove = true;
+        gm.lastCheckPointPos = transform.position;  // Set spawn point
+        boomerangChargeMeter.SetActive(false);                 // Hide the boomerang charge meter
+        canMove = true;                             // Allow movement
     }
 
     void Update()
@@ -71,15 +72,15 @@ public class PlayerController : MonoBehaviour
             if (Input.GetMouseButton(0))
             {
                 chargeTime += Time.deltaTime;
-                boomerangChargeObject.SetActive(true);
-                boomerangChargeObject.transform.right = throwDirection;
+                boomerangChargeMeter.SetActive(true);
+                boomerangChargeMeter.transform.right = throwDirection;
                 chargePercentage = chargeTime / timeToMaxCharge;
                 chargePercentage = Mathf.Clamp01(chargePercentage);
                 chargeBar.transform.localScale = new Vector3(chargePercentage, chargeBar.transform.localScale.y);
             }
             else if (Input.GetMouseButtonUp(0))
             {
-                boomerangChargeObject.SetActive(false);
+                boomerangChargeMeter.SetActive(false);
                 boomerang.ThrowBoomerang(throwDirection, chargePercentage);
                 chargeTime = 0;
             }
@@ -103,7 +104,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.CompareTag("Power-Up"))
         {
-            playerMovement.activateSpeedBoost = true;
+            playerMovement.SpeedPowerUp(true);
         }
         if (collision.GetComponent<Coin>() == true)
         {
@@ -113,7 +114,10 @@ public class PlayerController : MonoBehaviour
 
     public bool CheckGrounded()
     {
-        if(Physics2D.OverlapBox(groundCheck.position, groundCheckRadius, 0f, whatIsGround))
+        Collider2D groundCheck1 = Physics2D.OverlapBox(groundCheckBox.position, groundCheckRadius, 0f, whatIsGround);
+        Collider2D groundCheck2 = Physics2D.OverlapBox(groundCheckBox.position, groundCheckRadius, 0f, whatIsPlatform);
+
+        if (groundCheck1 || groundCheck2)
         {
             return true;
         } 
@@ -125,7 +129,10 @@ public class PlayerController : MonoBehaviour
 
     public bool CheckLeftWall()
     {
-        if (Physics2D.OverlapBox(leftWallCheck.position, wallCheckRadius, 0f, whatIsGround))
+        Collider2D leftWallCheck1 = Physics2D.OverlapBox(leftWallCheckBox.position, wallCheckRadius, 0f, whatIsGround);
+        Collider2D leftWallCheck2 = Physics2D.OverlapBox(leftWallCheckBox.position, wallCheckRadius, 0f, whatIsWall);
+
+        if (leftWallCheck1 || leftWallCheck2)
         {
             return true;
         }
@@ -137,7 +144,10 @@ public class PlayerController : MonoBehaviour
 
     public bool CheckRightWall()
     {
-        if (Physics2D.OverlapBox(rightWallCheck.position, wallCheckRadius, 0f, whatIsGround))
+        Collider2D rightWallCheck1 = Physics2D.OverlapBox(rightWallCheckBox.position, wallCheckRadius, 0f, whatIsGround);
+        Collider2D rightWallCheck2 = Physics2D.OverlapBox(rightWallCheckBox.position, wallCheckRadius, 0f, whatIsWall);
+
+        if (rightWallCheck1 || rightWallCheck2)
         {
             return true;
         }
@@ -147,12 +157,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmos() // Draw Gizmos for ground check and wall checks
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireCube(groundCheck.position, groundCheckRadius);
+        Gizmos.DrawWireCube(groundCheckBox.position, groundCheckRadius);
         Gizmos.color = Color.green;
-        Gizmos.DrawWireCube(leftWallCheck.position, wallCheckRadius);
-        Gizmos.DrawWireCube(rightWallCheck.position, wallCheckRadius);
+        Gizmos.DrawWireCube(leftWallCheckBox.position, wallCheckRadius);
+        Gizmos.DrawWireCube(rightWallCheckBox.position, wallCheckRadius);
     }
 }

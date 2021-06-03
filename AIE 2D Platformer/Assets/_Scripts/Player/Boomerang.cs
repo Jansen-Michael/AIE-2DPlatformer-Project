@@ -54,6 +54,7 @@ public class Boomerang : MonoBehaviour
         spriteRender = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         trailRenderer.enabled = false;
+        gameObject.layer = LayerMask.NameToLayer("Default");
     }
 
     private void FixedUpdate()
@@ -128,15 +129,15 @@ public class Boomerang : MonoBehaviour
     {
         if (chargePercentage < 0.4)
         {
-            chargeValue = 1;
+            chargeValue = 1;    // Low Charge
         }
         else if (chargePercentage < 0.85f)
         {
-            chargeValue = 2;
+            chargeValue = 2;    // Medium Charge
         }
         else
         {
-            chargeValue = 3;
+            chargeValue = 3;    // Large Charge
         }
     }
 
@@ -151,16 +152,18 @@ public class Boomerang : MonoBehaviour
             boxCollider.enabled = true;     // Enable box collider
             trailRenderer.enabled = false;  // Disable trail renderer
             animator.SetBool("isFrozen", true); // Set animation to is frozen
+            gameObject.layer = LayerMask.NameToLayer("Platform");   // Set Layer to Platform
         } 
         else if (isFrozen() && !wasFrozen)  // is currently frozen
         {
-            rb.sharedMaterial = boomerangPhysics; // Set physics material back to the defualt
-            boxCollider.enabled = false;    // Disable box collider
-            trailRenderer.enabled = true;   // Enable trail renderer
-            animator.SetBool("isFrozen", false); // Set animation back to defualt
-            wasFrozen = true;               // was frozen is set to true so we know we were just frozen
-            recallSpeed = recallStartSpeed; // Set recall speed back to the defualt value
-            currentState = State.Recalling; // Set current state to recall
+            rb.sharedMaterial = boomerangPhysics;               // Set physics material back to the defualt
+            boxCollider.enabled = false;                        // Disable box collider
+            trailRenderer.enabled = true;                       // Enable trail renderer
+            animator.SetBool("isFrozen", false);                // Set animation back to defualt
+            wasFrozen = true;                                   // was frozen is set to true so we know we were just frozen
+            gameObject.layer = LayerMask.NameToLayer("Default");// Set layer to Defualt
+            recallSpeed = recallStartSpeed;                     // Set recall speed back to the defualt value
+            currentState = State.Recalling;                     // Set current state to recall
         }
     }
 
@@ -181,7 +184,7 @@ public class Boomerang : MonoBehaviour
         recallSpeed = recallStartSpeed;     // Resets the recall speed
         yield return new WaitForSeconds(timeBeforeRecall);
         isPrepareForRecall = false;         // Set bool to false to allow this corutine to be run again
-        if (currentState == State.Thrown)   // Check to make sure we are in the thrown state
+        if (currentState == State.Thrown)   // Check to make sure we are in the thrown state and not freeze
         {
             currentState = State.Recalling; // Set boomerang to recalling
         }
@@ -189,10 +192,10 @@ public class Boomerang : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        Coin coin = collider.GetComponent<Coin>();
-        Enemy enemy = collider.GetComponent<Enemy>();
+        Coin coin = collider.GetComponent<Coin>();      // Try to grab coin script
 
-        if (coin != null) { coin.Collected(); }
-        if (enemy != null) { enemy.TakeDamage(chargeValue); }
+        if (coin != null) { coin.Collected(); }         // If there is a coin script collect it
+
+        // TODO: allow check point activation and switch activation
     }
 }

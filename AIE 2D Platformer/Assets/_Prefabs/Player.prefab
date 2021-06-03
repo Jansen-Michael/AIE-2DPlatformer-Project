@@ -549,7 +549,7 @@ Transform:
   m_GameObject: {fileID: 6934272956733194588}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.665, y: -2.365, z: -2.4555862}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children:
   - {fileID: 6934272956362779439}
   - {fileID: 718724694753351186}
@@ -608,21 +608,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bc3be73983cfdb479e16ac8c3953f79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groundCheck: {fileID: 6934272956733282051}
-  groundCheckRadius: {x: 1.24, y: 0.2}
+  groundCheckBox: {fileID: 6934272956733282051}
+  groundCheckRadius: {x: 2.5, y: 0.2}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 256
-  leftWallCheck: {fileID: 3634325535321474022}
-  rightWallCheck: {fileID: 5202397643894897573}
-  wallCheckRadius: {x: 0.18, y: 2.3}
+  whatIsPlatform:
+    serializedVersion: 2
+    m_Bits: 1024
+  leftWallCheckBox: {fileID: 3634325535321474022}
+  rightWallCheckBox: {fileID: 5202397643894897573}
+  wallCheckRadius: {x: 0.21, y: 4.75}
   whatIsWall:
     serializedVersion: 2
     m_Bits: 512
   canMove: 1
   dashEnabled: 1
   doubleJumpEnabled: 1
-  boomerangChargeObject: {fileID: 1580354960435997482}
+  boomerangChargeMeter: {fileID: 1580354960435997482}
   chargeBar: {fileID: 5157873239190885598}
   timeToMaxCharge: 1.2
 --- !u!114 &6934272956733194587
@@ -637,24 +640,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46d5f5710e1077e41883f6fe4ef717c5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 12
-  minSpeed: 12
-  maxSpeed: 25
-  timeFromZeroToMax: 10
-  timeFromMaxToZero: 15
-  speedBoost: 40
-  speedBoostTime: 3
-  activateSpeedBoost: 0
-  jumpForce: 18
+  speed: 23
+  minSpeed: 23
+  maxSpeed: 40
+  timeFromZeroToMax: 15
+  timeFromMaxToZero: 30
+  speedBoost: 50
+  wallJumpSpeedBoostTime: 1.2
+  powerupSpeedBoost: 3
+  jumpForce: 27
   doubleJump: 1
-  doubleJumpForce: 27
-  jumpTime: 0.18
-  isfirstJump: 0
-  xWallJumpForce: 25
-  yWallJumpForce: 15
+  doubleJumpForce: 36
+  jumpTime: 0.2
+  xWallJumpForce: 40
+  yWallJumpForce: 30
   wallJumpTime: 0.2
   wallSlidingSpeed: 10
-  isWallJumping: 0
   spriteBody: {fileID: 6934272956362779436}
 --- !u!114 &6934272956733194590
 MonoBehaviour:
@@ -668,7 +669,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03978189ada7c2f4db2e44ee6b8b0b09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dashSpeed: 30
+  dashSpeed: 60
   startDashTime: 0.2
   dashParticle: {fileID: 1328656238380958153, guid: 52de46a422a324f4182285e399120e96,
     type: 3}

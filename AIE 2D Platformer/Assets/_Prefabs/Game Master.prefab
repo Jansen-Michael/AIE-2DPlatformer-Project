@@ -50,6 +50,7 @@ MonoBehaviour:
   startTime: 300
   seconds: 0
   timeText: {fileID: 0}
+  nextLevel: 2
   lastCheckPointPos: {x: 0, y: 0}
 --- !u!114 &4734772152217518994
 MonoBehaviour:
