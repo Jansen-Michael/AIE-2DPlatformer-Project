@@ -90,11 +90,12 @@ public class Boomerang : MonoBehaviour
     {
         switch(currentState)
         {
-            case State.WithPlayer:  // What to do during With player state
+            case State.WithPlayer:  // Set all interactable and visual boomerang values to false
                 circleCollider.enabled = false;
+                boxCollider.enabled = false;
                 spriteRender.enabled = false;
                 trailRenderer.enabled = false;
-                transform.position = player.transform.position;
+                animator.SetBool("isFrozen", false);
                 break;
             default:
                 circleCollider.enabled = true;
@@ -107,6 +108,8 @@ public class Boomerang : MonoBehaviour
     {
         transform.position = player.transform.position;             // Start at player location
         rb.isKinematic = false;                                     // Make object not kinematic
+        rb.sharedMaterial = boomerangPhysics;                       // Set physics material back to it's defualt
+
         DetermindChargeValue(chargePercentage);
         switch(chargeValue)
         {
@@ -156,7 +159,7 @@ public class Boomerang : MonoBehaviour
         } 
         else if (isFrozen() && !wasFrozen)  // is currently frozen
         {
-            rb.sharedMaterial = boomerangPhysics;               // Set physics material back to the defualt
+            rb.sharedMaterial = boomerangPhysics;               // Set physics material back to it's defualt
             boxCollider.enabled = false;                        // Disable box collider
             trailRenderer.enabled = true;                       // Enable trail renderer
             animator.SetBool("isFrozen", false);                // Set animation back to defualt

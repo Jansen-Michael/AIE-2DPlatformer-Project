@@ -19,6 +19,7 @@ public class PlayerMovement : MonoBehaviour
     public float wallJumpSpeedBoostTime = 1f;
     public float powerupSpeedBoost = 3f;
     private bool activateSpeedBoost = false;
+    private bool startSpeedBoostCountDown = false;
 
     private PlayerController player;
     private Rigidbody2D rb;
@@ -246,12 +247,18 @@ public class PlayerMovement : MonoBehaviour
         {
             if (moveInput != 0) { speed = Mathf.MoveTowards(speed, speedBoost, acceleration * 2.5f); }      // Accelerate if there is move input
             else if (shouldDecelerate) { speed = Mathf.MoveTowards(speed, maxSpeed, deceleration / 2.5f); } // If no move input and should decelerate is true than decelerate
-            speedBoostTimeCounter -= Time.deltaTime;    // Reduce speed timer
             animator.SetBool("isSpeedBoost", true);     // Set animation to is speed boost
+
+            if (player.CheckGrounded()) { startSpeedBoostCountDown = true; } // Start speed boost CountDown only after we touch the ground
+            if (startSpeedBoostCountDown) 
+            {
+                speedBoostTimeCounter -= Time.deltaTime;    // Reduce speed timer
+            }
         }
-        else if (player.CheckGrounded() == true)
+        else
         {
             activateSpeedBoost = false;                 // Disable speed boost when speed timer truns out
+            startSpeedBoostCountDown = false;           // Disable speed boost CountDown
             animator.SetBool("isSpeedBoost", false);    // Set animation to normal
         }
     }
@@ -265,7 +272,9 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            activateSpeedBoost = false;
+            activateSpeedBoost = false;                 // Disable speed boost when speed timer truns out
+            startSpeedBoostCountDown = false;           // Disable speed boost CountDown
+            animator.SetBool("isSpeedBoost", false);    // Set animation to normal
         }
     }
 

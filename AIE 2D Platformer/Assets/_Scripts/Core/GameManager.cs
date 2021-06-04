@@ -76,6 +76,7 @@ public class GameManager : MonoBehaviour
         player.transform.position = lastCheckPointPos;
         cameraHolder.transform.position = player.transform.position;
         player.GetComponent<PlayerMovement>().SpeedPowerUp(false);
+        player.GetComponent<DashMove>().StopDash();
         player.enabled = true;
     }
 
@@ -85,10 +86,10 @@ public class GameManager : MonoBehaviour
         scoreText.text = "Score: " + currentScore;
     }
 
-    /*public void AddTime(float extraTime)
+    public void AddTime(float extraTime)
     {
         currentTime += extraTime;
-    }*/
+    }
 
     public void LevelComplete()
     {

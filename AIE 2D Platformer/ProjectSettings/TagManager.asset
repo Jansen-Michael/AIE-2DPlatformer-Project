@@ -4,12 +4,13 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Power-Up
   - Coin
   - GM
   - Camera Holder
   - Death
   - Boomerang
+  - Time-Power-Up
+  - Speed-Power-Up
   layers:
   - Default
   - TransparentFX

@@ -102,9 +102,15 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Power-Up"))
+        if (collision.CompareTag("Speed-Power-Up"))
         {
             playerMovement.SpeedPowerUp(true);
+            collision.gameObject.SetActive(false);
+        }
+        if (collision.CompareTag("Time-Power-Up"))
+        {
+            gm.AddTime(30f);
+            collision.gameObject.SetActive(false);
         }
         if (collision.GetComponent<Coin>() == true)
         {

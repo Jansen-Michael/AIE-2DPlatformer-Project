@@ -12,12 +12,11 @@ public class DashMove : MonoBehaviour
     public bool canDash = true;             // Bool to check if we can dash or not
 
     public float dashChargeTime;                // The time to charge up a dash
-    public float currentDashChargeTimer = 0f;  // The current dash charge timer
+    public float currentDashChargeTimer = 0f;   // The current dash charge timer
     private bool startDashCharge;               // Bool used to check whether we should start charging the dash or not
 
     public enum DashDirection { None, Up, Right, Down, Left};           // Enumerator type used to determine the dash direction
     private DashDirection dashDirection;                                // This is where we store the actual dash's direfction
-    //public DashDirection direction { get { return dashDirection; } }    // Public accessor to access the private variable dashDirection from another script
 
     void Start()
     {
@@ -28,7 +27,7 @@ public class DashMove : MonoBehaviour
 
     void Update()
     {
-        if (GetComponent<PlayerController>().CheckGrounded())   // Check if player is on the ground
+        if (GetComponent<PlayerController>().CheckGrounded())   // Check if player touch the ground
         {
             startDashCharge = true; // Start the dash charge process
         }
@@ -76,12 +75,7 @@ public class DashMove : MonoBehaviour
         {
             if (dashTime <= 0) // If dash time is done execute
             {
-                GetComponent<PlayerMovement>().KillSpeed();     // Kills all player speed/momentem
-                dashDirection = DashDirection.None;             // Set dash to none
-                dashTime = startDashTime;                       // Reset the dash time
-                canDash = false;                                // Disable dash
-                currentDashChargeTimer = 0f;                    // Reset the dash charge timer
-                startDashCharge = false;                        // Stop the dash charge process
+                StopDash(); // Stop dashing
             }
             else
             {
@@ -111,5 +105,15 @@ public class DashMove : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void StopDash()
+    {
+        GetComponent<PlayerMovement>().KillSpeed();     // Kills all player speed/momentem
+        dashDirection = DashDirection.None;             // Set dash to none
+        dashTime = startDashTime;                       // Reset the dash time
+        canDash = false;                                // Disable dash
+        currentDashChargeTimer = 0f;                    // Reset the dash charge timer
+        startDashCharge = false;                        // Stop the dash charge process
     }
 }
