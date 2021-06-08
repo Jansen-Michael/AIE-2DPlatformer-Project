@@ -47,6 +47,8 @@ public class GameManager : MonoBehaviour
         // Set up variables
         currentTime = startTime;    // Set timer to start time
         isPlaying = true;           // Set isPlaying to true to allow countdown
+
+        if (currentTime <= 0) { isPlaying = false; }    // if we start with no time than don't start playing
     }
 
     void Update()
@@ -59,11 +61,6 @@ public class GameManager : MonoBehaviour
     {
         if (isPlaying == false) { return; }
 
-        if (timeText == null)   // if time text does not ecist or hasn't been set print debug and exit
-        {
-            Debug.LogError("GameManager does not have timer text gameobject linked");
-            return; 
-        }
         currentTime -= Time.deltaTime;              // Reduce current time
         seconds = Mathf.RoundToInt(currentTime);    // Make current time to a whole number
         timeText.text = "Time: " + seconds;         // update timer text to show proper time

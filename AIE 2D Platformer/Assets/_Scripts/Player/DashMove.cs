@@ -81,7 +81,13 @@ public class DashMove : MonoBehaviour
             }
             else
             {
-                dashTime -= Time.deltaTime;
+                if (dashDirection != DashDirection.Down || GetComponent<PlayerController>().CheckGrounded()) 
+                { 
+                    dashTime -= Time.deltaTime; // Decrease time if not dashing down and if it is dashing down then don't decrease time untill checkground is true
+                    if (dashDirection == DashDirection.Down) { dashTime = 0; }  // If is dashing down and is on ground than end timer
+                }
+                
+
                 switch (dashDirection)  // Perform a dash based on the dash direction
                 {
                     case DashDirection.Right:
@@ -105,7 +111,7 @@ public class DashMove : MonoBehaviour
                     case DashDirection.Down:
                         rb.gravityScale = 0;
                         rb.velocity = Vector2.zero;
-                        rb.velocity = Vector2.down * 10000;     // Slam the player to the bottom
+                        rb.velocity = Vector2.down * 200;       // Slam the player to the bottom
                         animator.SetBool("isDashing", true);    // Set animation value isDashing to true
                         break;
                 }

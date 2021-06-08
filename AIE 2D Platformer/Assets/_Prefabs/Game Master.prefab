@@ -45,11 +45,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44d34e14ec8c9ed40b99cda19f2285e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentScore: 0
-  scoreText: {fileID: 0}
   startTime: 300
   seconds: 0
-  timeText: {fileID: 0}
   nextLevel: 2
   lastCheckPointPos: {x: 0, y: 0}
 --- !u!114 &4734772152217518994

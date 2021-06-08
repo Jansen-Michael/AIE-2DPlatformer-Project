@@ -16,7 +16,12 @@ public class CheckPoint : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Player")) // When contact with player
+        if (collision.GetComponent<PlayerController>()) // When contact with player
+        {
+            gm.lastCheckPointPos = transform.position;                  // Set GameManagers last check point position to this check point position
+            GetComponent<SpriteRenderer>().sprite = enabledCheckPoint;  // Set sprite to enabled check point
+        }
+        if (collision.GetComponent<Boomerang>())        // When contact with Boomerang
         {
             gm.lastCheckPointPos = transform.position;                  // Set GameManagers last check point position to this check point position
             GetComponent<SpriteRenderer>().sprite = enabledCheckPoint;  // Set sprite to enabled check point

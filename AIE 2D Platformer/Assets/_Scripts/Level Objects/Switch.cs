@@ -35,6 +35,10 @@ public class Switch : MonoBehaviour
         {
             keyboardKeyE.gameObject.SetActive(true);    // Enable the E keyboard key sprite
         }
+        if (collision.GetComponent<Boomerang>() && isDoorLocked)
+        {
+            StartCoroutine(UnlockDoor());               // Start the UnlockDoor Coroutine
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)

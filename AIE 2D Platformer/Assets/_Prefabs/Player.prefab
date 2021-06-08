@@ -15,7 +15,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &718724694753351186
 Transform:
   m_ObjectHideFlags: 0
@@ -331,7 +331,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6482259524693125716}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.525, y: -0.1, z: 0}
+  m_LocalPosition: {x: 0.45, y: -0.1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6934272956733194591}
@@ -444,6 +444,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6934272956733194591}
+  - component: {fileID: 6981323493458816052}
   - component: {fileID: 8010133159803581406}
   - component: {fileID: 6934272956733194585}
   - component: {fileID: 4488533668848896382}
@@ -477,8 +478,8 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!70 &8010133159803581406
-CapsuleCollider2D:
+--- !u!61 &6981323493458816052
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -490,8 +491,34 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.1, y: -0.1}
-  m_Size: {x: 1.25, y: 3.69}
+  m_Offset: {x: -0.13707794, y: -0.100000024}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.1590858, y: 3.62}
+  m_EdgeRadius: 0
+--- !u!70 &8010133159803581406
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6934272956733194588}
+  m_Enabled: 0
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.13574052, y: -0.100000024}
+  m_Size: {x: 1.178519, y: 3.69}
   m_Direction: 0
 --- !u!50 &6934272956733194585
 Rigidbody2D:
@@ -527,7 +554,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   groundCheckBox: {fileID: 6934272956733282051}
-  groundCheckRadius: {x: 2.27, y: 0.32}
+  groundCheckRadius: {x: 2.3, y: 0.32}
   whatIsGround:
     serializedVersion: 2
     m_Bits: 256
@@ -564,7 +591,8 @@ MonoBehaviour:
   timeFromZeroToMax: 15
   timeFromMaxToZero: 30
   speedBoost: 50
-  wallJumpSpeedBoostTime: 1
+  wallJumpSpeedBoostTime: 0.8
+  wallJumpSpeedBoostTime2: 1.3
   powerupSpeedBoost: 3.5
   facingRight: 1
   jumpForce: 30
@@ -654,7 +682,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6934272956733282048}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.1, y: -1.888, z: 0}
+  m_LocalPosition: {x: -0.135, y: -1.888, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6934272956733194591}

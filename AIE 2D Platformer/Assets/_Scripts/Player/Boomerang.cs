@@ -42,7 +42,7 @@ public class Boomerang : MonoBehaviour
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         circleCollider = GetComponent<CircleCollider2D>();
-        Physics2D.IgnoreCollision(circleCollider, player.GetComponent<CapsuleCollider2D>());
+        Physics2D.IgnoreCollision(circleCollider, player.GetComponent<BoxCollider2D>());
         currentState = State.WithPlayer;
     }
 
@@ -197,10 +197,6 @@ public class Boomerang : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        Coin coin = collider.GetComponent<Coin>();      // Try to grab coin script
-
-        if (coin != null) { coin.Collected(); }         // If there is a coin script collect it
-
-        // TODO: allow check point activation and switch activation
+        if (collider.GetComponent<Coin>()) { collider.GetComponent<Coin>().Collected(); }   // If it is a coin then collect it
     }
 }

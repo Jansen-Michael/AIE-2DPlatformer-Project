@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
     public float speedBoost = 35f;
     private float speedBoostTimeCounter;
     public float wallJumpSpeedBoostTime = 1f;
+    public float wallJumpSpeedBoostTime2 = 1.3f;
     public float powerupSpeedBoost = 3f;
     private bool activateSpeedBoost = false;
     private bool startSpeedBoostCountDown = false;
@@ -191,7 +192,7 @@ public class PlayerMovement : MonoBehaviour
                     }
                     else if (Input.GetButtonDown("Jump") && isWallSliding == true && moveInput == 1) // if pushing against wall and jump is pressed
                     {
-                        speedBoostTimeCounter = wallJumpSpeedBoostTime;     // Set Speed boost timer
+                        speedBoostTimeCounter = wallJumpSpeedBoostTime2;    // Set Speed boost timer
                         activateSpeedBoost = true;                          // Set Speed boost to true
                         yWallJump = yWallJumpForce;                         // Set Vertical jump Force to original value
                         wallJumpDirection = WallJumpDirection.FromRight;    // Set isWallJumping to from right
@@ -203,7 +204,7 @@ public class PlayerMovement : MonoBehaviour
                 case (WallJumpDirection.FromRight):     // If we wall jump from same direction reduce value if opposite direction give speed boost
                     if (Input.GetButtonDown("Jump") && isWallSliding == true && moveInput == -1) // if pushing against wall and jump is pressed
                     {
-                        speedBoostTimeCounter = wallJumpSpeedBoostTime;     // Set Speed boost timer
+                        speedBoostTimeCounter = wallJumpSpeedBoostTime2;    // Set Speed boost timer
                         activateSpeedBoost = true;                          // Set Speed boost to true
                         yWallJump = yWallJumpForce;                         // Set Vertical jump Force to original value
                         wallJumpDirection = WallJumpDirection.FromLeft;     // Set isWallJumping to from left
