@@ -21,10 +21,13 @@ public class PlayerMovement : MonoBehaviour
     private bool activateSpeedBoost = false;
     private bool startSpeedBoostCountDown = false;
 
+    // References to other components
     private PlayerController player;
     private Rigidbody2D rb;
     private Animator animator;
-    private bool facingRight = true;
+    private SpeedTrail speedTrail;
+
+    public bool facingRight = true;    // Bool variable to check which way player is facing
 
     // Jump
     public float jumpForce = 20f;
@@ -52,12 +55,29 @@ public class PlayerMovement : MonoBehaviour
 
     void Start()
     {
-        // Grab Components and reset variables
+        // Grab Components and set some variables
         player = GetComponent<PlayerController>();
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        speedTrail = GetComponent<SpeedTrail>();
+
         yWallJump = yWallJumpForce;
         wallJumpDirection = WallJumpDirection.None;
+    }
+
+    private void Update()
+    {
+        if (moveInput != 0 && player.CheckGrounded())   // Check if player is moving on the ground
+        {
+            animator.SetBool("isRunning", true);        // Set animation bool isRunning to true
+        } 
+        else { animator.SetBool("isRunning", false); }  // Set animation bool isRunning to false
+
+        if (player.CheckGrounded() == false)            // Check if player is not on the ground
+        { 
+            animator.SetBool("isInAir", true);          // Set animation bool isInAir to true
+        } 
+        else { animator.SetBool("isInAir", false); }    // Set animation bool isInAir to false
     }
 
     private void FixedUpdate()
@@ -102,7 +122,8 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetButtonDown("Jump") && player.CheckGrounded() == true)  // If grounded and space bar is pressed than jump
         {
-            isfirstJump = true; // set isfirst jump to true
+            isfirstJump = true;                     // set isfirst jump to true
+            animator.SetBool("isFirstJump", true);  // set animation isFirstJump to true
             rb.velocity = Vector2.up * jumpForce;
         }
 
@@ -116,10 +137,11 @@ public class PlayerMovement : MonoBehaviour
             else
             {
                 isfirstJump = false; // set isfirst jump to false
+                animator.SetBool("isFirstJump", false);
             }
         }
 
-        if (Input.GetButtonUp("Jump")) { isfirstJump = false; } // if let go of space bar than set isfirst jump to false
+        if (Input.GetButtonUp("Jump")) { isfirstJump = false; animator.SetBool("isFirstJump", false); } // if let go of space bar than set isfirst jump to false
     }
 
     public void WallJump()
@@ -204,11 +226,13 @@ public class PlayerMovement : MonoBehaviour
     {
         if (player.CheckGrounded() == true)
         {
-            canDoubleJump = true;       // Enable double jump
+            canDoubleJump = true;                           // Enable double jump
+            animator.SetBool("isDoubleJump", false);        // Set animation value isDoubleJump to true
         }
 
         if (Input.GetButtonDown("Jump") && player.CheckGrounded() == false && isfirstJump == false && canDoubleJump == true && isWallJumping == false)  // Check Conditions
         {
+            animator.SetBool("isDoubleJump", true);         // Set animation value isDoubleJump to true
             rb.velocity = Vector2.up * doubleJumpForce;     // Perform the double jump
             canDoubleJump = false;                          // Disable double jump
         }
@@ -247,7 +271,7 @@ public class PlayerMovement : MonoBehaviour
         {
             if (moveInput != 0) { speed = Mathf.MoveTowards(speed, speedBoost, acceleration * 2.5f); }      // Accelerate if there is move input
             else if (shouldDecelerate) { speed = Mathf.MoveTowards(speed, maxSpeed, deceleration / 2.5f); } // If no move input and should decelerate is true than decelerate
-            animator.SetBool("isSpeedBoost", true);     // Set animation to is speed boost
+            speedTrail.makeTrail = true;     // Give player a speed trail
 
             if (player.CheckGrounded()) { startSpeedBoostCountDown = true; } // Start speed boost CountDown only after we touch the ground
             if (startSpeedBoostCountDown) 
@@ -259,7 +283,7 @@ public class PlayerMovement : MonoBehaviour
         {
             activateSpeedBoost = false;                 // Disable speed boost when speed timer truns out
             startSpeedBoostCountDown = false;           // Disable speed boost CountDown
-            animator.SetBool("isSpeedBoost", false);    // Set animation to normal
+            speedTrail.makeTrail = false;               // Disable player's speed trail
         }
     }
 
@@ -274,7 +298,7 @@ public class PlayerMovement : MonoBehaviour
         {
             activateSpeedBoost = false;                 // Disable speed boost when speed timer truns out
             startSpeedBoostCountDown = false;           // Disable speed boost CountDown
-            animator.SetBool("isSpeedBoost", false);    // Set animation to normal
+            speedTrail.makeTrail = false;               // Disable player's speed trail
         }
     }
 

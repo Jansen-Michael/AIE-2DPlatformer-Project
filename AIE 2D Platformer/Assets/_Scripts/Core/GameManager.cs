@@ -6,14 +6,14 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     // Score Variables
-    public int currentScore;
-    public Text scoreText;
+    private int currentScore;
+    private Text scoreText;
 
     // Time Variables
     public int startTime = 300;
     private float currentTime;
     public int seconds;
-    public Text timeText;
+    private Text timeText;
 
     public int nextLevel;               // the next level unlocked
     public Vector2 lastCheckPointPos;   // player's respawn location
@@ -24,8 +24,8 @@ public class GameManager : MonoBehaviour
     private PlayerController player;
     private Boomerang boomerang;
     private GameObject cameraHolder;
+    private GameCanvas gameCanvas;
     private WinScreen winScreen;
-    private GameOverScreen gameOverScreen;
 
     private bool isPlaying = true;
 
@@ -37,11 +37,12 @@ public class GameManager : MonoBehaviour
         player = FindObjectOfType<PlayerController>();
         boomerang = FindObjectOfType<Boomerang>();
         cameraHolder = GameObject.FindGameObjectWithTag("Camera Holder");
-        winScreen = FindObjectOfType<WinScreen>();
-        gameOverScreen = FindObjectOfType<GameOverScreen>();
+        gameCanvas = FindObjectOfType<GameCanvas>();
+        winScreen = gameCanvas.winScreen;
 
-        winScreen.gameObject.SetActive(false);      // Disable win screen
-        gameOverScreen.gameObject.SetActive(false); // Disable gameover screen
+        // Set up Text
+        scoreText = gameCanvas.scoreText;
+        timeText = gameCanvas.timeText;
 
         // Set up variables
         currentTime = startTime;    // Set timer to start time
@@ -50,7 +51,8 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        TimeCountDown();
+        if (Input.GetKeyDown(KeyCode.Escape)) { gameCanvas.PauseGame(); }   // Pause Game
+        TimeCountDown();    // Start CountDown
     }
 
     private void TimeCountDown() // Countdown Time and update timer
@@ -69,15 +71,15 @@ public class GameManager : MonoBehaviour
         if (currentTime <= 0) { GameOver(); }
     }
 
-    public void RespawnPlayer()
+    public void RespawnPlayer() // Respawn the Player
     {
-        boomerang.currentState = Boomerang.State.WithPlayer;
-        player.enabled = false;
-        player.transform.position = lastCheckPointPos;
-        cameraHolder.transform.position = player.transform.position;
-        player.GetComponent<PlayerMovement>().SpeedPowerUp(false);
-        player.GetComponent<DashMove>().StopDash();
-        player.enabled = true;
+        boomerang.currentState = Boomerang.State.WithPlayer;            // Return Boomerang to player
+        player.enabled = false;                                         // Disable Player
+        player.transform.position = lastCheckPointPos;                  // Move player to last check point
+        cameraHolder.transform.position = player.transform.position;    // Move camera to player
+        player.GetComponent<PlayerMovement>().SpeedPowerUp(false);      // Disable Speed Boost
+        player.GetComponent<DashMove>().StopDash();                     // Stop any dash movements
+        player.enabled = true;                                          // Enable the player
     }
 
     public void AddScore(int newScore)  // Add score and update score board
@@ -86,7 +88,7 @@ public class GameManager : MonoBehaviour
         scoreText.text = "Score: " + currentScore;
     }
 
-    public void AddTime(float extraTime)
+    public void AddTime(float extraTime)    // Add more time to the timer
     {
         currentTime += extraTime;
     }
@@ -127,6 +129,6 @@ public class GameManager : MonoBehaviour
         player.GetComponent<PlayerMovement>().KillSpeed();
         player.gameObject.SetActive(false);
         boomerang.gameObject.SetActive(false);
-        gameOverScreen.gameObject.SetActive(true);
+        gameCanvas.gameOverScreen.gameObject.SetActive(true);
     }
 } 

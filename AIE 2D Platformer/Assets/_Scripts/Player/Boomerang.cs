@@ -67,6 +67,7 @@ public class Boomerang : MonoBehaviour
                 {
                     if (isPrepareForRecall == false) { StartCoroutine(PrepareForRecall()); } // Start coroutine for recall
                 }
+                player.GetComponent<Animator>().SetBool("isThrowing", false);
                 break;
 
             case State.Recalling:   // What to check for during recall state
@@ -106,6 +107,7 @@ public class Boomerang : MonoBehaviour
 
     public void ThrowBoomerang(Vector3 throwDir, float chargePercentage)
     {
+        player.GetComponent<Animator>().SetBool("isThrowing", true);
         transform.position = player.transform.position;             // Start at player location
         rb.isKinematic = false;                                     // Make object not kinematic
         rb.sharedMaterial = boomerangPhysics;                       // Set physics material back to it's defualt

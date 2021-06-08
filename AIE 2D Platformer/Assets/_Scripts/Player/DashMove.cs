@@ -5,6 +5,7 @@ using UnityEngine;
 public class DashMove : MonoBehaviour
 {
     private Rigidbody2D rb;                 // Reference to Rigidbody
+    private Animator animator;              // Reference to our Animator
     public float dashSpeed;                 // Dash speed value
     private float dashTime;                 // The countdown timer of the dash
     public float startDashTime;             // The time of how long the dash will last for
@@ -21,8 +22,9 @@ public class DashMove : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();           // Get the Rigidbody Component
-        dashTime = startDashTime;                   // set the dash time
-        dashDirection = DashDirection.None;         // set dash direction
+        animator = GetComponent<Animator>();        // Get the Animator Component
+        dashTime = startDashTime;                   // Set the dash time
+        dashDirection = DashDirection.None;         // Set dash direction
     }
 
     void Update()
@@ -86,21 +88,25 @@ public class DashMove : MonoBehaviour
                         rb.gravityScale = 0;
                         rb.velocity = Vector2.zero;
                         transform.Translate(Vector2.right * dashSpeed * Time.deltaTime);// Dashes player
+                        animator.SetBool("isDashing", true);                            // Set animation value isDashing to true
                         break;
                     case DashDirection.Left:
                         rb.gravityScale = 0;
                         rb.velocity = Vector2.zero;
                         transform.Translate(Vector2.left * dashSpeed * Time.deltaTime); // Dashes player
+                        animator.SetBool("isDashing", true);                            // Set animation value isDashing to true
                         break;
                     case DashDirection.Up:
                         rb.gravityScale = 0;
                         rb.velocity = Vector2.zero;
                         transform.Translate(Vector2.up * dashSpeed * Time.deltaTime);   // Dashes player
+                        animator.SetBool("isDashing", true);                            // Set animation value isDashing to true
                         break;
                     case DashDirection.Down:
                         rb.gravityScale = 0;
                         rb.velocity = Vector2.zero;
                         rb.velocity = Vector2.down * 10000;     // Slam the player to the bottom
+                        animator.SetBool("isDashing", true);    // Set animation value isDashing to true
                         break;
                 }
             }
@@ -110,6 +116,7 @@ public class DashMove : MonoBehaviour
     public void StopDash()
     {
         GetComponent<PlayerMovement>().KillSpeed();     // Kills all player speed/momentem
+        animator.SetBool("isDashing", false);           // Set animation value isDashing to false
         dashDirection = DashDirection.None;             // Set dash to none
         dashTime = startDashTime;                       // Reset the dash time
         canDash = false;                                // Disable dash

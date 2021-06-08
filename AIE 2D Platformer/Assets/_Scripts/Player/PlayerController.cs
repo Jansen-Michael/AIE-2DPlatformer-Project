@@ -5,10 +5,11 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    // References to other components and GameObjects
     private GameManager gm;
     private PlayerMovement playerMovement;
     private DashMove dashMove;
-
+    private Animator animator;
     private Rigidbody2D rb;
 
     // Check is grounded variables
@@ -42,6 +43,7 @@ public class PlayerController : MonoBehaviour
         boomerang = FindObjectOfType<Boomerang>().GetComponent<Boomerang>();
         playerMovement = GetComponent<PlayerMovement>();
         dashMove = GetComponent<DashMove>();
+        animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
 
         // Set up variables
@@ -52,7 +54,16 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (canMove == false) { return; }
+        if (canMove == false)   // Disable movement and inputs and animation
+        {
+            animator.SetBool("isRunning", false);
+            animator.SetBool("isFirstJump", false);
+            animator.SetBool("isDoubleJump", false);
+            animator.SetBool("isInAir", false);
+            animator.SetBool("isThrowing", false);
+            animator.SetBool("isDashing", false);
+            return; 
+        }
 
         playerMovement.Movement();
         dashMove.Dash();
@@ -93,24 +104,24 @@ public class PlayerController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Death"))
+        if (collision.gameObject.CompareTag("Death"))   // If Collide with gameobject of tag Death
         {
-            gm.RespawnPlayer();
-            //print("Respawn");
+            gm.RespawnPlayer();     // Respawn Player
         }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Speed-Power-Up"))
+        if (collision.CompareTag("Speed-Power-Up")) // If collide with speed power-up
         {
-            playerMovement.SpeedPowerUp(true);
-            collision.gameObject.SetActive(false);
+            playerMovement.SpeedPowerUp(true);      // Enable speed boost
+            Destroy(collision);                     // Destroy Power-up
+            //collision.gameObject.SetActive(false);  // Deactivate power-up
         }
         if (collision.CompareTag("Time-Power-Up"))
         {
-            gm.AddTime(30f);
-            collision.gameObject.SetActive(false);
+            gm.AddTime(30f);                        // Add 30 seconds to the timer
+            Destroy(collision);                     // Destroy Power-up
         }
         if (collision.GetComponent<Coin>() == true)
         {
@@ -118,12 +129,12 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public bool CheckGrounded()
+    public bool CheckGrounded()     // Check if there are gameobjects with the matching layer on the check radius
     {
         Collider2D groundCheck1 = Physics2D.OverlapBox(groundCheckBox.position, groundCheckRadius, 0f, whatIsGround);
         Collider2D groundCheck2 = Physics2D.OverlapBox(groundCheckBox.position, groundCheckRadius, 0f, whatIsPlatform);
 
-        if (groundCheck1 || groundCheck2)
+        if ((groundCheck1 || groundCheck2) && rb.velocity.y == 0)   // Check if player contact with matching layer and not in air
         {
             return true;
         } 
@@ -133,7 +144,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public bool CheckLeftWall()
+    public bool CheckLeftWall()     // Check if there are gameobjects with the matching layer on the check radius
     {
         Collider2D leftWallCheck1 = Physics2D.OverlapBox(leftWallCheckBox.position, wallCheckRadius, 0f, whatIsGround);
         Collider2D leftWallCheck2 = Physics2D.OverlapBox(leftWallCheckBox.position, wallCheckRadius, 0f, whatIsWall);
@@ -148,7 +159,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public bool CheckRightWall()
+    public bool CheckRightWall()    // Check if there are gameobjects with the matching layer on the check radius
     {
         Collider2D rightWallCheck1 = Physics2D.OverlapBox(rightWallCheckBox.position, wallCheckRadius, 0f, whatIsGround);
         Collider2D rightWallCheck2 = Physics2D.OverlapBox(rightWallCheckBox.position, wallCheckRadius, 0f, whatIsWall);
