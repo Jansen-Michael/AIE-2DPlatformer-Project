@@ -591,8 +591,8 @@ MonoBehaviour:
   timeFromZeroToMax: 15
   timeFromMaxToZero: 30
   speedBoost: 50
-  wallJumpSpeedBoostTime: 0.8
-  wallJumpSpeedBoostTime2: 1.3
+  wallJumpSpeedBoostTime: 0.6
+  wallJumpSpeedBoostTime2: 1.2
   powerupSpeedBoost: 3.5
   facingRight: 1
   jumpForce: 30

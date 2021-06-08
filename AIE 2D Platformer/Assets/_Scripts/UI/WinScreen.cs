@@ -41,7 +41,7 @@ public class WinScreen : MonoBehaviour
 
     public void SetHighScore(int highScore)
     {
-        BestScoreText.text = "Best Score:" + highScore;         // Set text to display the high score
+        BestScoreText.text = "Best Score: " + highScore;         // Set text to display the high score
     }
 
     public void SetBestTime(float bestTime)

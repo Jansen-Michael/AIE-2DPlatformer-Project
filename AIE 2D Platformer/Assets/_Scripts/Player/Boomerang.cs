@@ -195,6 +195,14 @@ public class Boomerang : MonoBehaviour
         }
     }
 
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.GetComponent<Glass>())
+        {
+            collision.gameObject.GetComponent<Glass>().TakeDamage(chargeValue);
+        }
+    }
+
     private void OnTriggerEnter2D(Collider2D collider)
     {
         if (collider.GetComponent<Coin>()) { collider.GetComponent<Coin>().Collected(); }   // If it is a coin then collect it

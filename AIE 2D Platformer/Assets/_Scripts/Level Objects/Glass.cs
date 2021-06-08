@@ -38,12 +38,8 @@ public class Glass : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    public void TakeDamage(int damage)
     {
-        if (collision.gameObject.GetComponent<Boomerang>())
-        {
-            health -= 1;
-
-        }
+        health -= damage;
     }
 }
